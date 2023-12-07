@@ -1,0 +1,21 @@
+
+c = [-40 -30]';
+A = [
+1 1
+4 2
+];
+b = [120 320]';
+ [xopt,fopt,exitflag,iter,yopt]=karmarkar([],[],c,[],[],[],[],[],A,b)
+c=-c;
+deff('[w]=f(x,y)','w=c(1)*x+c(2)*y');
+xx=[0:10:180];yy=[0:10:180];zz=feval(xx,yy,f);
+contour(xx,yy,zz,[3000 4000 5000]);
+deff('[y1]=f1(x)','y1=120-x')
+deff('[y2]=f2(x)','y2=(160-(2*x))')
+xxx=[0:1:180];yy1=f1(xxx);yy2=f2(xxx);
+plot2d([xxx' xxx'],[yy1' yy2'],[-1,-1],'011',' ',[0 0 130 170])
+xstring(xopt(1)+0.05, xopt(2)+0.05,'solution')
+xtitle('Primal Dual problem','x','y')
+
+c=-c
+[xopt,fopt,exitflag,iter,yopt]=karmarkar([],[],c,[],[],[],[],[],A,b)
