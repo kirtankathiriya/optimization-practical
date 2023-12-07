@@ -1,0 +1,461 @@
+***practical_3***
+
+2d graph
+x=[1,2,3];
+y=[1,4,9];
+plot(x,y)
+
+3d graph
+function z=f(x,y)
+    z=x^2+y^2;
+endfunction
+x = linspace(1,1,100)
+y = linspace(1,1,100)
+z = feval(x,y,f)
+clf
+surf(x,y,z)
+
+***practical_4***
+
+//singular or not
+a = [0 0 0 ; 1 2 3 ; 2 3 4]
+if det(a) == 0 then
+    disp("matrix singular")
+else
+    disp("matrix is not singular")
+end
+
+***practical_5***
+
+//Rosenbrock function
+x1 = linspace(-2,2,100);
+x2 = linspace(-2,2,100);
+[x1,x2] = meshgrid(x1,x2);
+z = 100*(x2-x1.^2).^2+(1-x1).^2;
+f = scf()
+plot3d1(x1,x2,z');
+
+***practical_6***
+
+// Define a vector
+vector = [1, 2, 3, 4, 5];
+// Calculate the L1 norm (sum of absolute values)
+l1_norm = norm(vector, 1);
+// Calculate the L2 norm (Euclidean norm)
+l2_norm = norm(vector, 2);
+// Calculate the infinity norm (maximum absolute value)
+inf_norm = norm(vector, 'inf');
+
+disp('Vector:');
+disp(vector);
+disp('L1 Norm:');
+disp(l1_norm);
+disp('L2 Norm:');
+disp(l2_norm);
+disp('Infinity Norm:');
+disp(inf_norm);
+
+// Define a matrix
+matrix = [1, 2, 3; 4, 5, 6; 7, 8, 9];
+// Calculate the Frobenius norm
+frobenius_norm = norm(matrix, 'fro');
+
+disp('Matrix:');
+disp(matrix);
+disp('Frobenius Norm:');
+disp(frobenius_norm);
+
+***practical_7***
+
+//ax = b
+a = [1,2,4;
+     2,1,3;
+     1,1,1]
+b = [15;
+     10;
+     5]
+x = inv(a)*b
+
+***practical_8***
+
+//run command to in terminal line by line
+Aeq = [
+1 -1 0
+1  1 1
+];
+beq = [0;2];
+c = [-1;-1;0];
+x0 = [0.1;0.1;1.8];
+[xopt,fopt,exitflag,iter,yopt]=karmarkar(Aeq,beq,c)
+xstar=[1 1 0]'
+
+***practical_9***
+
+//contour function and 2d function
+function f=f1(x1,x2)
+    f = x1^2+x2^2;
+endfunction
+xdata = linspace(-1,1,100);
+ydata = linspace(-1,1,100);
+contour(xdata,ydata,f1,10)
+
+***practical_10***
+
+//theory 
+
+***practcial_11***
+
+---> <---
+
+***practical_12***
+
+//fonc sonc and sosc
+--> <--
+
+***practical_13***
+
+//secant method
+//function --> y = x^3+2x^2-8 
+disp("secant method")
+deff('y=f(x)','y=x^3+2*x^2-8')
+a=1
+b=2
+for i = 1:5
+    c = (a*f(b)-b*f(a))/f(b)-f(a)
+    b=c
+    a=c
+    disp([i,c])
+end
+
+
+***practical_14***
+
+//newton raphson method
+function f = myFunction(x)
+    f = x^3 - 2*x^2 + 4;
+endfunction
+
+function df = myDerivative(x)
+    df = 3*x^2 - 4*x;
+endfunction
+
+x0 = 2.0;
+
+tolerance = 1e-6;
+
+maxIterations = 100;
+
+for i = 1:maxIterations
+    f_x0 = myFunction(x0);
+    df_x0 = myDerivative(x0);
+    
+    x1 = x0 - f_x0 / df_x0;
+    
+    if abs(x1 - x0) < tolerance
+        break;
+    end
+    
+    x0 = x1;
+end
+
+if i >= maxIterations
+    disp('Newton-Raphson method did not converge within the specified number of iterations.');
+else
+    disp(['The root is approximately x = ', string(x0)]);
+    disp(['Number of iterations: ', string(i)]);
+end
+
+***practical_15***
+
+//golden section method
+
+function f = objective(x)
+    f = (x - 2)^2 + 3;
+endfunction
+
+function [xmin, fmin] = goldenSectionMethod(a, b, tolerance)
+    phi = (1 + sqrt(5)) / 2;  // Golden ratio ~ 1.618
+    x1 = b - (b - a) / phi;
+    x2 = a + (b - a) / phi;
+    f1 = objective(x1);
+    f2 = objective(x2);
+    
+    while abs(b - a) > tolerance
+        if f1 < f2
+            b = x2;
+            x2 = x1;
+            f2 = f1;
+            x1 = b - (b - a) / phi;
+            f1 = objective(x1);
+        else
+            a = x1;
+            x1 = x2;
+            f1 = f2;
+            x2 = a + (b - a) / phi;
+            f2 = objective(x2);
+        end
+    end
+    
+    xmin = (a + b) / 2;
+    fmin = objective(xmin);
+endfunction
+
+a = 0;
+b = 4;
+tolerance = 1e-6;
+
+[xmin, fmin] = goldenSectionMethod(a, b, tolerance);
+
+disp(['Minimum at x = ', string(xmin)]);
+disp(['Minimum value = ', string(fmin)]);
+
+
+***practical_16***
+
+//fibonacci series method
+// Define the objective function to be minimized.
+function f = objective(x)
+    f = (x - 2)^2 + 3;
+endfunction
+
+// Fibonacci Search implementation.
+function [xmin, fmin] = fibonacciSearch(a, b, n)
+    fib = [1, 1];
+    for i = 3:n
+        fib(i) = fib(i-1) + fib(i-2);
+    end
+    
+    x1 = a + (fib(n-2) / fib(n)) * (b - a);
+    x2 = a + (fib(n-1) / fib(n)) * (b - a);
+    f1 = objective(x1);
+    f2 = objective(x2);
+    
+    for i = 1:n-2
+        if f1 < f2
+            b = x2;
+            x2 = x1;
+            f2 = f1;
+            x1 = a + (fib(n-i-2) / fib(n-i-1)) * (b - a);
+            f1 = objective(x1);
+        else
+            a = x1;
+            x1 = x2;
+            f1 = f2;
+            x2 = a + (fib(n-i-1) / fib(n-i)) * (b - a);
+            f2 = objective(x2);
+        end
+    end
+    
+    xmin = (a + b) / 2;
+    fmin = objective(xmin);
+endfunction
+
+// Set initial bounds and number of iterations.
+a = 0;
+b = 4;
+n = 10;
+
+// Call the Fibonacci Search.
+[xmin, fmin] = fibonacciSearch(a, b, n);
+
+// Display the result.
+disp(['Minimum at x = ', string(xmin)]);
+disp(['Minimum value = ', string(fmin)]);
+
+
+***practcial_17***
+
+--> <--
+
+***practical_18***
+
+//non linear problem using optim
+function [f, g, ind]=cost(x, ind)  
+    xref = [1; 2; 3];  
+    f = 0.5 * norm(x - xref)^2;   
+    g = x - xref;  
+    if (ind == 1) then   mprintf("f(x) = %s, |g(x)|=%s\n", string(f), string(norm(g)))  
+end  endfunction 
+x0 = [1; -1; 1];   
+[fopt, xopt] = optim(cost, x0, iprint = -1)   
+
+
+***practical_19***
+
+//steepest descent method
+function y=rastrigin(x)
+n=max(size(x));
+y=n+sum(x.^2-cos(2*%pi*x));
+endfunction
+
+function y=rastrigingrad(x)
+y=2*x+2*%pi*sin(2*%pi*x);
+endfunction
+
+function z=dotprod(x,y)
+z=sum(x.*y);
+endfunction
+
+function d=descentdirection(f,x,fx,gx)
+d=-gx;
+endfunction
+
+function [xnew,fnew,itback]=backtracking(f,x,fx,gx,d)
+tau=0.3;
+bet=0.0001;
+alphainit=1;
+alpha=alphainit;xnew=x+alpha*d;
+fnew=f(xnew);
+itback=1;
+while(fnew>fx+bet*alpha*dotprod(gx,d))
+  alpha=tau*alpha;
+  xnew=x+alpha*d;
+  fnew=f(xnew);
+  itback=itback+1;
+end
+endfunction
+
+disp('steepest descent method for the rastrigin function:');
+
+timer();
+n=evstr(x_dialog('number of variables of the rastrigin function to minimize','2'));
+epsilon=1E-5;
+
+xmin=-5*ones(1,n);
+xmax=5*ones(1,n);
+u=rand(1,n);
+x0=xmin+(xmax-xmin).*u;
+x=x0;fx=rastrigin(x);gx=rastrigingrad(x);
+itgrad=1;
+itfct=1;
+Xbest=x;Fbest=fx;
+
+while (norm(gx)>epsilon)
+  d=descentdirection(rastrigin,x,fx,gx);
+  [x,fx,itback]=backtracking(rastrigin,x,fx,gx,d);
+  Xbest=[Xbest;x];
+  Fbest=[Fbest;fx];
+  gx=rastrigingrad(x);
+  itgrad=itgrad+1;
+  itfct=itfct+itback;
+end
+
+disp('function evaluation number:');disp(itfct);
+disp('gradient evaluation number:');disp(itgrad);
+disp('minimum obtained:');disp(x);
+disp('corresponding value by f:');disp(fx);
+
+if (n==2)
+xmin=-5.12;xmax=5.12;N=300;
+xplot=xmin:((xmax-xmin)/(N-1)):xmax;
+yplot=xplot;
+zplot=zeros(N,N);
+for i=1:N
+for j=1:N
+zplot(i,j)=rastrigin([xplot(i),yplot(j)]);
+end
+end
+clf()
+plot2d(Xbest(:,1),Xbest(:,2),rect=[-5.12,-5.12,5.12,5.12]); 
+contour2d(xplot,yplot,zplot,[0:0.01:0.1,0.2:1,1:10]);
+xtitle('trajectory display');
+clf()
+plot2d(Xbest(:,1),Xbest(:,2),rect=[x(1)-0.1,x(2)-0.1,x(1)+0.1,x(2)+0.1]); 
+contour2d(xplot,yplot,zplot,[fx:0.1:(fx+1)]);
+xtitle('trajectory display');
+end
+
+
+***practical_20***
+
+//bfgs method
+disp('BFGS for Rastrigin');
+
+function y=rastrigin(x)
+n=max(size(x));
+y=n+sum(x.^2-cos(2*%pi*x));
+endfunction
+
+function y=rastrigingrad(x)
+y=2*x+2*%pi*sin(2*%pi*x);
+endfunction
+
+function z=dotprod(x,y);
+z=sum(x.*y);
+endfunction
+
+function [d,gx]=descentdirection(Bk,gx);
+d=linsolve(Bk,gx);
+endfunction
+
+function [xnew,fnew,itback]=backtracking(f,x,fx,gx,d);
+tau=0.3;
+bet=0.0001;
+alphainit=1;
+alpha=alphainit;xnew=x+alpha*d;
+fnew=f(xnew);
+itback=1;
+while(fnew>fx+bet*alpha*dotprod(gx,d))
+  alpha=tau*alpha;
+  xnew=x+alpha*d;
+  fnew=f(xnew);
+  itback=itback+1;
+end
+endfunction
+
+timer();
+n=2;
+epsilon=1E-5;
+
+xmin=-5*ones(1,n);
+xmax=5*ones(1,n);
+u=rand(1,n);
+x0=xmin+(xmax-xmin).*u;
+x=x0;fx=rastrigin(x);gx=rastrigingrad(x);
+itgrad=1;
+itfct=1;
+Xbest=x;Fbest=fx;
+Bk=eye(n,n);
+
+while (norm(gx)>epsilon)
+  x0=x;gx0=gx;
+  d=descentdirection(Bk,gx');
+  [x,fx,itback]=backtracking(rastrigin,x,fx,gx,d');
+  Xbest=[Xbest;x];
+  Fbest=[Fbest;fx];
+  gx=rastrigingrad(x);
+  itgrad=itgrad+1;
+  itfct=itfct+itback;
+  yk=gx'-gx0';sk=x'-x0';
+  Bk=Bk+(yk*yk')/dotprod(sk,yk)-(Bk*sk*sk'*Bk)/dotprod(sk,Bk*sk);
+end
+
+disp('function evaluation number:');disp(itfct);
+disp('gradient evaluation number:');disp(itgrad);
+
+disp('minimum obtained:');disp(x);
+disp('corresponding value by f:');disp(fx);
+
+if (n==2)
+xmin=-5.12;xmax=5.12;N=300;
+xplot=xmin:((xmax-xmin)/(N-1)):xmax;
+yplot=xplot;
+zplot=zeros(N,N);
+for i=1:N
+for j=1:N
+zplot(i,j)=rastrigin([xplot(i),yplot(j)]);
+end
+end
+xset('window',0)
+clf()
+plot2d(Xbest(:,1),Xbest(:,2),rect=[-5.12,-5.12,5.12,5.12]); 
+contour2d(xplot,yplot,zplot,[0:0.01:0.1,0.2:1,1:10]);
+xset('window',1)
+clf()
+plot2d(Xbest(:,1),Xbest(:,2),rect=[x(1)-0.1,x(2)-0.1,x(1)+0.1,x(2)+0.1]); 
+contour2d(xplot,yplot,zplot,[fx:0.1:(fx+1)]);
+end
+
+
+
+
